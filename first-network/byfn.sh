@@ -184,6 +184,42 @@ function networkUp() {
     echo "Sleeping 10s to allow $CONSENSUS_TYPE cluster to complete booting"
     sleep 9
   fi
+  # if [ "${IF_COUCHDB}" == "couchdb" ]; then
+  #   if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH up -d 2>&1
+  #   else
+  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH up -d 2>&1
+  #   fi
+  # else
+  #   if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA up -d 2>&1
+  #   else
+  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE up -d 2>&1
+  #   fi
+  # fi
+  # if [ $? -ne 0 ]; then
+  #   echo "ERROR !!!! Unable to start network"
+  #   exit 1
+  # fi
+
+  # if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+  #   sleep 1
+  #   echo "Sleeping 10s to allow kafka cluster to complete booting"
+  #   sleep 9
+  # fi
+  # a=0
+  # # -lt is less than operator 
+
+  # #Iterate the loop until a less than 10 
+  # rm -f nohup.out
+  # while [ $a -lt 50 ] 
+  # do
+  #     b="$a"
+  #     str="orderer$b.example.com"
+  #     nohup docker exec $str "/var/hyperledger/fabric/orderer/elastico" &
+  #     # increment the value 
+  #     a=`expr $a + 1`
+  # done
 
   if [ "$CONSENSUS_TYPE" == "etcdraft" ]; then
     sleep 1
@@ -204,7 +240,7 @@ function networkUp() {
 # and relaunch the orderer and peers with latest tag
 function upgradeNetwork() {
   if [[ "$IMAGETAG" == *"1.4"* ]] || [[ $IMAGETAG == "latest" ]]; then
-    docker inspect -f '{{.Config.Volumes}}' orderer.example.com | grep -q '/var/hyperledger/production/orderer'
+    docker inspect -f '{{.Config.Volumes}}' orderer0.example.com | grep -q '/var/hyperledger/production/orderer'
     if [ $? -ne 0 ]; then
       echo "ERROR !!!! This network does not appear to start with fabric-samples >= v1.3.x?"
       exit 1
@@ -236,7 +272,7 @@ function upgradeNetwork() {
     docker-compose $COMPOSE_FILES up -d --no-deps cli
 
     echo "Upgrading orderer"
-    docker-compose $COMPOSE_FILES stop orderer.example.com
+    docker-compose $COMPOSE_FILES stop orderer0.example.com
     docker cp -a orderer.example.com:/var/hyperledger/production/orderer $LEDGERS_BACKUP/orderer.example.com
     docker-compose $COMPOSE_FILES up -d --no-deps orderer.example.com
 
@@ -368,7 +404,6 @@ function generateCerts() {
   fi
   echo
 }
-
 # The `configtxgen tool is used to create four artifacts: orderer **bootstrap
 # block**, fabric **channel configuration transaction**, and two **anchor
 # peer transactions** - one for each Peer Org.
@@ -423,6 +458,8 @@ function generateChannelArtifacts() {
   set -x
   if [ "$CONSENSUS_TYPE" == "solo" ]; then
     configtxgen -profile TwoOrgsOrdererGenesis -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
+  elif [ "$CONSENSUS_TYPE" == "elastico" ]; then
+    configtxgen -profile TwoOrgsOrdererGenesis -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block  
   elif [ "$CONSENSUS_TYPE" == "kafka" ]; then
     configtxgen -profile SampleDevModeKafka -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
   elif [ "$CONSENSUS_TYPE" == "etcdraft" ]; then
@@ -508,7 +545,8 @@ LANGUAGE=golang
 # default image tag
 IMAGETAG="latest"
 # default consensus type
-CONSENSUS_TYPE="solo"
+# CONSENSUS_TYPE="solo"
+CONSENSUS_TYPE="elastico"
 # Parse commandline args
 if [ "$1" = "-m" ]; then # supports old usage, muscle memory is powerful!
   shift

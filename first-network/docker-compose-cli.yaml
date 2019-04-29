@@ -6,7 +6,56 @@
 version: '2'
 
 volumes:
-  orderer.example.com:
+  orderer0.example.com:
+  orderer1.example.com:
+  orderer2.example.com:
+  orderer3.example.com:
+  orderer4.example.com:
+  orderer5.example.com:
+  orderer6.example.com:
+  orderer7.example.com:
+  orderer8.example.com:
+  orderer9.example.com:
+  orderer10.example.com:
+  orderer11.example.com:
+  orderer12.example.com:
+  orderer13.example.com:
+  orderer14.example.com:
+  orderer15.example.com:
+  orderer16.example.com:
+  orderer17.example.com:
+  orderer18.example.com:
+  orderer19.example.com:
+  orderer20.example.com:
+  orderer21.example.com:
+  orderer22.example.com:
+  orderer23.example.com:
+  orderer24.example.com:
+  orderer25.example.com:
+  orderer26.example.com:
+  orderer27.example.com:
+  orderer28.example.com:
+  orderer29.example.com:
+  orderer30.example.com:
+  orderer31.example.com:
+  orderer32.example.com:
+  orderer33.example.com:
+  orderer34.example.com:
+  orderer35.example.com:
+  orderer36.example.com:
+  orderer37.example.com:
+  orderer38.example.com:
+  orderer39.example.com:
+  orderer40.example.com:
+  orderer41.example.com:
+  orderer42.example.com:
+  orderer43.example.com:
+  orderer44.example.com:
+  orderer45.example.com:
+  orderer46.example.com:
+  orderer47.example.com:
+  orderer48.example.com:
+  orderer49.example.com:
   peer0.org1.example.com:
   peer1.org1.example.com:
   peer0.org2.example.com:
@@ -17,13 +66,513 @@ networks:
 
 services:
 
-  orderer.example.com:
+  rabbitmq0:
     extends:
       file:   base/docker-compose-base.yaml
-      service: orderer.example.com
-    container_name: orderer.example.com
+      service: rabbitmq0
+    container_name: rabbitmq0
+    networks:
+      - byfn  
+
+  orderer0.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer0.example.com
+    container_name: orderer0.example.com
     networks:
       - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer1.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer1.example.com
+    container_name: orderer1.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer2.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer2.example.com
+    container_name: orderer2.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer3.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer3.example.com
+    container_name: orderer3.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer4.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer4.example.com
+    container_name: orderer4.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer5.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer5.example.com
+    container_name: orderer5.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer6.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer6.example.com
+    container_name: orderer6.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer7.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer7.example.com
+    container_name: orderer7.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer8.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer8.example.com
+    container_name: orderer8.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer9.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer9.example.com
+    container_name: orderer9.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer10.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer10.example.com
+    container_name: orderer10.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer11.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer11.example.com
+    container_name: orderer11.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer12.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer12.example.com
+    container_name: orderer12.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer13.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer13.example.com
+    container_name: orderer13.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer14.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer14.example.com
+    container_name: orderer14.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer15.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer15.example.com
+    container_name: orderer15.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer16.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer16.example.com
+    container_name: orderer16.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer17.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer17.example.com
+    container_name: orderer17.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer18.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer18.example.com
+    container_name: orderer18.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer19.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer19.example.com
+    container_name: orderer19.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer20.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer20.example.com
+    container_name: orderer20.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer21.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer21.example.com
+    container_name: orderer21.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer22.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer22.example.com
+    container_name: orderer22.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer23.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer23.example.com
+    container_name: orderer23.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer24.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer24.example.com
+    container_name: orderer24.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer25.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer25.example.com
+    container_name: orderer25.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer26.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer26.example.com
+    container_name: orderer26.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer27.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer27.example.com
+    container_name: orderer27.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer28.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer28.example.com
+    container_name: orderer28.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer29.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer29.example.com
+    container_name: orderer29.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer30.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer30.example.com
+    container_name: orderer30.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer31.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer31.example.com
+    container_name: orderer31.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer32.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer32.example.com
+    container_name: orderer32.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer33.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer33.example.com
+    container_name: orderer33.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer34.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer34.example.com
+    container_name: orderer34.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer35.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer35.example.com
+    container_name: orderer35.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer36.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer36.example.com
+    container_name: orderer36.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer37.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer37.example.com
+    container_name: orderer37.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer38.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer38.example.com
+    container_name: orderer38.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer39.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer39.example.com
+    container_name: orderer39.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer40.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer40.example.com
+    container_name: orderer40.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer41.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer41.example.com
+    container_name: orderer41.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer42.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer42.example.com
+    container_name: orderer42.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer43.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer43.example.com
+    container_name: orderer43.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer44.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer44.example.com
+    container_name: orderer44.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer45.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer45.example.com
+    container_name: orderer45.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer46.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer46.example.com
+    container_name: orderer46.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer47.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer47.example.com
+    container_name: orderer47.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer48.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer48.example.com
+    container_name: orderer48.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
+
+  orderer49.example.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer49.example.com
+    container_name: orderer49.example.com
+    networks:
+      - byfn
+    depends_on:
+      - rabbitmq0
 
   peer0.org1.example.com:
     container_name: peer0.org1.example.com
@@ -32,6 +581,9 @@ services:
       service: peer0.org1.example.com
     networks:
       - byfn
+    environment:
+      - CORE_PEER_GOSSIP_BOOTSTRAP=true
+      - CORE_PEER_GOSSIP_EXTERNAL_ENDPOINT=true  
 
   peer1.org1.example.com:
     container_name: peer1.org1.example.com
@@ -40,6 +592,9 @@ services:
       service: peer1.org1.example.com
     networks:
       - byfn
+    environment:
+      - CORE_PEER_GOSSIP_BOOTSTRAP=true
+      - CORE_PEER_GOSSIP_EXTERNAL_ENDPOINT=true
 
   peer0.org2.example.com:
     container_name: peer0.org2.example.com
@@ -48,6 +603,9 @@ services:
       service: peer0.org2.example.com
     networks:
       - byfn
+    environment:
+      - CORE_PEER_GOSSIP_BOOTSTRAP=true
+      - CORE_PEER_GOSSIP_EXTERNAL_ENDPOINT=true  
 
   peer1.org2.example.com:
     container_name: peer1.org2.example.com
@@ -56,6 +614,9 @@ services:
       service: peer1.org2.example.com
     networks:
       - byfn
+    environment:
+      - CORE_PEER_GOSSIP_BOOTSTRAP=true
+      - CORE_PEER_GOSSIP_EXTERNAL_ENDPOINT=true
 
   cli:
     container_name: cli
@@ -65,8 +626,8 @@ services:
     environment:
       - GOPATH=/opt/gopath
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      #- FABRIC_LOGGING_SPEC=DEBUG
-      - FABRIC_LOGGING_SPEC=INFO
+      - FABRIC_LOGGING_SPEC=DEBUG
+      # - FABRIC_LOGGING_SPEC=INFO
       - CORE_PEER_ID=cli
       - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
       - CORE_PEER_LOCALMSPID=Org1MSP
@@ -84,7 +645,56 @@ services:
         - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
         - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
-      - orderer.example.com
+      - orderer0.example.com
+      - orderer1.example.com
+      - orderer2.example.com
+      - orderer3.example.com
+      - orderer4.example.com
+      - orderer5.example.com
+      - orderer6.example.com
+      - orderer7.example.com
+      - orderer8.example.com
+      - orderer9.example.com
+      - orderer10.example.com
+      - orderer11.example.com
+      - orderer12.example.com
+      - orderer13.example.com
+      - orderer14.example.com
+      - orderer15.example.com
+      - orderer16.example.com
+      - orderer17.example.com
+      - orderer18.example.com
+      - orderer19.example.com
+      - orderer20.example.com
+      - orderer21.example.com
+      - orderer22.example.com
+      - orderer23.example.com
+      - orderer24.example.com
+      - orderer25.example.com
+      - orderer26.example.com
+      - orderer27.example.com
+      - orderer28.example.com
+      - orderer29.example.com
+      - orderer30.example.com
+      - orderer31.example.com
+      - orderer32.example.com
+      - orderer33.example.com
+      - orderer34.example.com
+      - orderer35.example.com
+      - orderer36.example.com
+      - orderer37.example.com
+      - orderer38.example.com
+      - orderer39.example.com
+      - orderer40.example.com
+      - orderer41.example.com
+      - orderer42.example.com
+      - orderer43.example.com
+      - orderer44.example.com
+      - orderer45.example.com
+      - orderer46.example.com
+      - orderer47.example.com
+      - orderer48.example.com
+      - orderer49.example.com
       - peer0.org1.example.com
       - peer1.org1.example.com
       - peer0.org2.example.com
