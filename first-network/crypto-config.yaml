@@ -19,10 +19,12 @@ OrdererOrgs:
     # ---------------------------------------------------------------------------
     Specs:
       - Hostname: orderer
-      - Hostname: orderer2
-      - Hostname: orderer3
-      - Hostname: orderer4
-      - Hostname: orderer5
+        SANS:
+          - "localhost"
+          - "127.0.0.1"
+          - "192.168.64.3"
+          - "192.168.96.7"
+          - "192.168.112.4"
 
 # ---------------------------------------------------------------------------
 # "PeerOrgs" - Definition of organizations managing peer nodes
@@ -69,6 +71,9 @@ PeerOrgs:
     # ---------------------------------------------------------------------------
     Template:
       Count: 2
+      SANS:
+        - "localhost"
+        - "127.0.0.1"
       # Start: 5
       # Hostname: {{.Prefix}}{{.Index}} # default
     # ---------------------------------------------------------------------------
@@ -86,5 +91,8 @@ PeerOrgs:
     EnableNodeOUs: true
     Template:
       Count: 2
+      SANS:
+        - "localhost"
+        - "127.0.0.1"
     Users:
       Count: 1

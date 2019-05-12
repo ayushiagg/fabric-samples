@@ -66,6 +66,44 @@ networks:
 
 services:
 
+  ca.org1.example.com:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca-org1
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/938ecac5ac5e3c9c7b7bfbdafa067944def37cf68120c2b97ac8cf3f4e562987_sk
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/938ecac5ac5e3c9c7b7bfbdafa067944def37cf68120c2b97ac8cf3f4e562987_sk
+    ports:
+      - "7054:7054"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - /home/ayushi/go/src/github.com/hyperledger/fabric-samples/first-network/crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerOrg1
+    networks:
+      - byfn
+
+  ca.org2.example.com:
+    image: hyperledger/fabric-ca
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=ca-org2
+      - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
+      - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/54a09657b7a666e9306bfc082b6a6de2856fc27d3be7654eacc01462c53a9a1f_sk
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
+      - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-config/54a09657b7a666e9306bfc082b6a6de2856fc27d3be7654eacc01462c53a9a1f_sk
+    ports:
+      - "8054:7054"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - /home/ayushi/go/src/github.com/hyperledger/fabric-samples/first-network/crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+    container_name: ca_peerOrg2
+    networks:
+      - byfn
+
   rabbitmq0:
     extends:
       file:   base/docker-compose-base.yaml
@@ -620,7 +658,7 @@ services:
 
   cli:
     container_name: cli
-    image: hyperledger/fabric-tools:$IMAGE_TAG
+    image: hyperledger/fabric-tools
     tty: true
     stdin_open: true
     environment:
@@ -640,10 +678,10 @@ services:
     command: /bin/bash
     volumes:
         - /var/run/:/host/var/run/
-        - ./../chaincode/:/opt/gopath/src/github.com/chaincode
-        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
-        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+        - /home/ayushi/go/src/github.com/hyperledger/fabric-samples/chaincode/:/opt/gopath/src/github.com/chaincode
+        - /home/ayushi/go/src/github.com/hyperledger/fabric-samples/first-network/crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - /home/ayushi/go/src/github.com/hyperledger/fabric-samples/first-network/scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+        - /home/ayushi/go/src/github.com/hyperledger/fabric-samples/first-network/channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
       - orderer0.example.com
       - orderer1.example.com

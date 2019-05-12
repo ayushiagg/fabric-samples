@@ -154,6 +154,58 @@ instantiateChaincode() {
   echo
 }
 
+instantiateChaincode1() {
+  PEER=$1
+  ORG=$2
+  setGlobals $PEER $ORG
+  VERSION=${3:-1.0}
+
+  # while 'peer chaincode' command can get the orderer endpoint from the peer
+  # (if join was successful), let's supply it directly as we know it using
+  # the "-o" option
+  if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
+    set -x
+    peer chaincode instantiate -o orderer1.example.com:7050 -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v ${VERSION} -c '{"Args":["init","c","100","d","200"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
+    res=$?
+    set +x
+  else
+    set -x
+    peer chaincode instantiate -o orderer1.example.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v 1.0 -c '{"Args":["init","c","100","d","200"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
+    res=$?
+    set +x
+  fi
+  cat log.txt
+  verifyResult $res "Chaincode instantiation on peer${PEER}.org${ORG} on channel '$CHANNEL_NAME' failed"
+  echo "===================== Chaincode is instantiated on peer${PEER}.org${ORG} on channel '$CHANNEL_NAME' ===================== "
+  echo
+}
+
+instantiateChaincode2() {
+  PEER=$1
+  ORG=$2
+  setGlobals $PEER $ORG
+  VERSION=${3:-1.0}
+
+  # while 'peer chaincode' command can get the orderer endpoint from the peer
+  # (if join was successful), let's supply it directly as we know it using
+  # the "-o" option
+  if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
+    set -x
+    peer chaincode instantiate -o orderer0.example.com:7050 -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v ${VERSION} -c '{"Args":["init","e","100","f","200"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
+    res=$?
+    set +x
+  else
+    set -x
+    peer chaincode instantiate -o orderer0.example.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v 1.0 -c '{"Args":["init","e","100","f","200"]}' -P "AND ('Org1MSP.peer','Org2MSP.peer')" >&log.txt
+    res=$?
+    set +x
+  fi
+  cat log.txt
+  verifyResult $res "Chaincode instantiation on peer${PEER}.org${ORG} on channel '$CHANNEL_NAME' failed"
+  echo "===================== Chaincode is instantiated on peer${PEER}.org${ORG} on channel '$CHANNEL_NAME' ===================== "
+  echo
+}
+
 upgradeChaincode() {
   PEER=$1
   ORG=$2
@@ -186,7 +238,7 @@ chaincodeQuery() {
     sleep $DELAY
     echo "Attempting to Query peer${PEER}.org${ORG} ...$(($(date +%s) - starttime)) secs"
     set -x
-    peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","a"]}' >&log.txt
+    peer chaincode query -C $CHANNEL_NAME -n mycc -c '{"Args":["query","c"]}' >&log.txt
     res=$?
     set +x
     test $res -eq 0 && VALUE=$(cat log.txt | awk '/Query Result/ {print $NF}')

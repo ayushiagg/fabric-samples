@@ -184,42 +184,42 @@ function networkUp() {
     echo "Sleeping 10s to allow $CONSENSUS_TYPE cluster to complete booting"
     sleep 9
   fi
-  # if [ "${IF_COUCHDB}" == "couchdb" ]; then
-  #   if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH up -d 2>&1
-  #   else
-  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH up -d 2>&1
-  #   fi
-  # else
-  #   if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA up -d 2>&1
-  #   else
-  #     IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE up -d 2>&1
-  #   fi
-  # fi
-  # if [ $? -ne 0 ]; then
-  #   echo "ERROR !!!! Unable to start network"
-  #   exit 1
-  # fi
+  if [ "${IF_COUCHDB}" == "couchdb" ]; then
+    if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH up -d 2>&1
+    else
+      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH up -d 2>&1
+    fi
+  else
+    if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA up -d 2>&1
+    else
+      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE up -d 2>&1
+    fi
+  fi
+  if [ $? -ne 0 ]; then
+    echo "ERROR !!!! Unable to start network"
+    exit 1
+  fi
 
-  # if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-  #   sleep 1
-  #   echo "Sleeping 10s to allow kafka cluster to complete booting"
-  #   sleep 9
-  # fi
-  # a=0
-  # # -lt is less than operator 
+  if [ "$CONSENSUS_TYPE" == "kafka" ]; then
+    sleep 1
+    echo "Sleeping 10s to allow kafka cluster to complete booting"
+    sleep 9
+  fi
+  a=0
+  # -lt is less than operator 
 
-  # #Iterate the loop until a less than 10 
-  # rm -f nohup.out
-  # while [ $a -lt 50 ] 
-  # do
-  #     b="$a"
-  #     str="orderer$b.example.com"
-  #     nohup docker exec $str "/var/hyperledger/fabric/orderer/elastico" &
-  #     # increment the value 
-  #     a=`expr $a + 1`
-  # done
+  #Iterate the loop until a less than 10 
+  rm -f nohup.out
+  while [ $a -lt 50 ] 
+  do
+      b="$a"
+      str="orderer$b.example.com"
+      nohup docker exec $str "/var/hyperledger/fabric/orderer/elastico" &
+      # increment the value 
+      a=`expr $a + 1`
+  done
 
   if [ "$CONSENSUS_TYPE" == "etcdraft" ]; then
     sleep 1
@@ -229,6 +229,32 @@ function networkUp() {
 
   # now run the end to end script
   docker exec cli scripts/script.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT $VERBOSE $NO_CHAINCODE
+  if [ $? -ne 0 ]; then
+    echo "ERROR !!!! Test failed"
+    exit 1
+  fi
+}
+
+# Generate the needed certificates, the genesis block and start the network.
+function networkRun() {
+
+  COMPOSE_FILES="-f ${COMPOSE_FILE}"
+  if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_CA}"
+    export BYFN_CA1_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org1.example.com/ca && ls *_sk)
+    export BYFN_CA2_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org2.example.com/ca && ls *_sk)
+  fi
+  if [ "${CONSENSUS_TYPE}" == "kafka" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_KAFKA}"
+  elif [ "${CONSENSUS_TYPE}" == "etcdraft" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_RAFT2}"
+  fi
+  if [ "${IF_COUCHDB}" == "couchdb" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_COUCH}"
+  fi
+  
+  # now run the end to end script
+  docker exec cli scripts/elasticoScript.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT $VERBOSE $NO_CHAINCODE
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Test failed"
     exit 1
@@ -564,6 +590,8 @@ elif [ "$MODE" == "generate" ]; then
   EXPMODE="Generating certs and genesis block"
 elif [ "$MODE" == "upgrade" ]; then
   EXPMODE="Upgrading the network"
+elif [ "$MODE" == "run" ]; then
+  EXPMODE="run the network"
 else
   printHelp
   exit 1
@@ -637,6 +665,8 @@ elif [ "${MODE}" == "restart" ]; then ## Restart the network
   networkUp
 elif [ "${MODE}" == "upgrade" ]; then ## Upgrade the network from version 1.2.x to 1.3.x
   upgradeNetwork
+elif [ "${MODE}" == "run" ]; then ## Upgrade the network from version 1.2.x to 1.3.x
+  networkRun  
 else
   printHelp
   exit 1
