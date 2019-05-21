@@ -39,13 +39,14 @@ echo "Channel name : "$CHANNEL_NAME
 # import utils
 . scripts/utils.sh
 
-# Invoke chaincode on peer0.org1 and peer0.org2
-echo "Sending invoke transaction on peer0.org1 peer0.org2..."
-chaincodeInvoke 0 1 0 2
-
-## Install chaincode on peer1.org2
-echo "Installing chaincode on peer1.org2..."
-installChaincode 1 2
+b=0
+while [ $b -lt 50 ] 
+do
+    # Invoke chaincode on peer0.org1 and peer0.org2
+    echo "Sending invoke transaction on peer0.org1 peer0.org2..."
+    chaincodeInvoke 0 1 0 2
+    b=`expr $b + 1`
+done
 
 echo
 echo "========= All GOOD, BYFN execution completed =========== "
