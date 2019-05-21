@@ -172,7 +172,8 @@ function networkUp() {
   if [ "${IF_COUCHDB}" == "couchdb" ]; then
     COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_COUCH}"
   fi
-  IMAGE_TAG=$IMAGETAG docker-compose ${COMPOSE_FILES} up -d 2>&1
+  # COMPOSE_HTTP_TIMEOUT=2000 IMAGE_TAG=$IMAGETAG docker-compose --verbose ${COMPOSE_FILES} up -d 2>&1
+  COMPOSE_HTTP_TIMEOUT=2000 IMAGE_TAG=$IMAGETAG docker-compose ${COMPOSE_FILES} up -d 2>&1
   docker ps -a
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Unable to start network"
@@ -216,18 +217,19 @@ function networkUp() {
   do
       b="$a"
       str="orderer$b.example.com"
-      nohup docker exec $str "/var/hyperledger/fabric/orderer/elastico" &
+      nohup docker exec $str "/var/hyperledger/fabric/orderer/elastico" > nohup.out &
       # increment the value 
       a=`expr $a + 1`
   done
-
+  # echo "chala do consumer"
+  # sleep 30
   if [ "$CONSENSUS_TYPE" == "etcdraft" ]; then
     sleep 1
     echo "Sleeping 15s to allow $CONSENSUS_TYPE cluster to complete booting"
     sleep 14
   fi
 
-  # now run the end to end script
+  now run the end to end script
   docker exec cli scripts/script.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT $VERBOSE $NO_CHAINCODE
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Test failed"
@@ -349,7 +351,7 @@ function networkDown() {
     #Cleanup images
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
-    rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./org3-artifacts/crypto-config/ channel-artifacts/org3.json
+    sudo rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./org3-artifacts/crypto-config/ channel-artifacts/org3.json
     # remove the docker-compose yaml file that was customized to the example
     rm -f docker-compose-e2e.yaml
   fi
@@ -573,6 +575,8 @@ IMAGETAG="latest"
 # default consensus type
 # CONSENSUS_TYPE="solo"
 CONSENSUS_TYPE="elastico"
+CERTIFICATE_AUTHORITIES=true
+
 # Parse commandline args
 if [ "$1" = "-m" ]; then # supports old usage, muscle memory is powerful!
   shift
@@ -649,7 +653,7 @@ else
   echo "${EXPMODE} for channel '${CHANNEL_NAME}' with CLI timeout of '${CLI_TIMEOUT}' seconds and CLI delay of '${CLI_DELAY}' seconds"
 fi
 # ask for confirmation to proceed
-askProceed
+# askProceed
 
 #Create the network using docker compose
 if [ "${MODE}" == "up" ]; then

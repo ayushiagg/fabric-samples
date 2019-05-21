@@ -38,7 +38,7 @@ echo "Channel name : "$CHANNEL_NAME
 
 # import utils
 . scripts/utils.sh
-# instantiateChaincode 0 2  
+instantiateChaincode 0 2  
 # instantiateChaincode1 0 2  
 # instantiateChaincode2 0 2  
 
@@ -50,8 +50,8 @@ echo "Channel name : "$CHANNEL_NAME
 
 
 # Query chaincode on peer0.org1
-# echo "Querying chaincode on peer0.org1..."
-# chaincodeQuery 0 1 80
+echo "Querying chaincode on peer0.org1..."
+chaincodeQuery 0 1 100
 
 # # Invoke chaincode on peer0.org1 and peer0.org2
 # echo "Sending invoke transaction on peer0.org1 peer0.org2..."
@@ -62,8 +62,8 @@ echo "Channel name : "$CHANNEL_NAME
 # installChaincode 1 2
 
 # Query on chaincode on peer1.org2, check if the result is 90
-echo "Querying chaincode on peer1.org2..."
-chaincodeQuery 1 2 80
+# echo "Querying chaincode on peer1.org2..."
+# chaincodeQuery 1 2 80
 
 echo
 echo "========= All GOOD, BYFN execution completed =========== "
