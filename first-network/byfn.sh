@@ -622,6 +622,8 @@ elif [ "$MODE" == "upgrade" ]; then
   EXPMODE="Upgrading the network"
 elif [ "$MODE" == "run" ]; then
   EXPMODE="run the network"
+elif [ "$MODE" == "test" ]; then
+  EXPMODE="test the network"
 else
   printHelp
   exit 1
