@@ -263,6 +263,32 @@ function networkRun() {
   fi
 }
 
+# Generate the needed certificates, the genesis block and start the network.
+function networkTest() {
+
+  COMPOSE_FILES="-f ${COMPOSE_FILE}"
+  if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_CA}"
+    export BYFN_CA1_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org1.example.com/ca && ls *_sk)
+    export BYFN_CA2_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org2.example.com/ca && ls *_sk)
+  fi
+  if [ "${CONSENSUS_TYPE}" == "kafka" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_KAFKA}"
+  elif [ "${CONSENSUS_TYPE}" == "etcdraft" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_RAFT2}"
+  fi
+  if [ "${IF_COUCHDB}" == "couchdb" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_COUCH}"
+  fi
+  
+  # now run the end to end script
+  docker exec cli scripts/tests.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT $VERBOSE $NO_CHAINCODE
+  if [ $? -ne 0 ]; then
+    echo "ERROR !!!! Test failed"
+    exit 1
+  fi
+}
+
 # Upgrade the network components which are at version 1.3.x to 1.4.x
 # Stop the orderer and peers, backup the ledger for orderer and peers, cleanup chaincode containers and images
 # and relaunch the orderer and peers with latest tag
@@ -670,7 +696,9 @@ elif [ "${MODE}" == "restart" ]; then ## Restart the network
 elif [ "${MODE}" == "upgrade" ]; then ## Upgrade the network from version 1.2.x to 1.3.x
   upgradeNetwork
 elif [ "${MODE}" == "run" ]; then ## Upgrade the network from version 1.2.x to 1.3.x
-  networkRun  
+  networkRun
+elif [ "${MODE}" == "test" ]; then ## Upgrade the network from version 1.2.x to 1.3.x
+  networkTest  
 else
   printHelp
   exit 1
