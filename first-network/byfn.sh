@@ -289,6 +289,45 @@ function networkTest() {
   fi
 }
 
+# Generate the needed certificates, the genesis block and start the network.
+function consumerRestart() {
+
+  COMPOSE_FILES="-f ${COMPOSE_FILE}"
+  if [ "${CERTIFICATE_AUTHORITIES}" == "true" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_CA}"
+    export BYFN_CA1_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org1.example.com/ca && ls *_sk)
+    export BYFN_CA2_PRIVATE_KEY=$(cd crypto-config/peerOrganizations/org2.example.com/ca && ls *_sk)
+  fi
+  if [ "${CONSENSUS_TYPE}" == "kafka" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_KAFKA}"
+  elif [ "${CONSENSUS_TYPE}" == "etcdraft" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_RAFT2}"
+  fi
+  if [ "${IF_COUCHDB}" == "couchdb" ]; then
+    COMPOSE_FILES="${COMPOSE_FILES} -f ${COMPOSE_FILE_COUCH}"
+  fi
+  a=0
+  rm -f nohup.out
+  while [ $a -lt 50 ] 
+  do
+      b="$a"
+      str="orderer$b.example.com"
+      docker exec $str bash -c "ps -ax | grep elastico | grep -v grep | head -n1|cut -d' ' -f4 | xargs kill"
+      # increment the value 
+      a=`expr $a + 1`
+  done
+  a=0
+  while [ $a -lt 50 ]
+  do
+      b="$a"
+      str="orderer$b.example.com"
+      nohup docker exec $str "/var/hyperledger/fabric/orderer/elastico" > nohup.out &
+      # increment the value
+      a=`expr $a + 1`
+  done
+
+}
+
 # Upgrade the network components which are at version 1.3.x to 1.4.x
 # Stop the orderer and peers, backup the ledger for orderer and peers, cleanup chaincode containers and images
 # and relaunch the orderer and peers with latest tag
@@ -624,6 +663,8 @@ elif [ "$MODE" == "run" ]; then
   EXPMODE="run the network"
 elif [ "$MODE" == "test" ]; then
   EXPMODE="test the network"
+elif [ "$MODE" == "kill" ]; then
+  EXPMODE="kill the consumer and restart"
 else
   printHelp
   exit 1
@@ -701,6 +742,8 @@ elif [ "${MODE}" == "run" ]; then ## Upgrade the network from version 1.2.x to 1
   networkRun
 elif [ "${MODE}" == "test" ]; then ## Upgrade the network from version 1.2.x to 1.3.x
   networkTest  
+elif [ "${MODE}" == "kill" ]; then ## Upgrade the network from version 1.2.x to 1.3.x
+  consumerRestart
 else
   printHelp
   exit 1

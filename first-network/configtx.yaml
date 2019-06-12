@@ -238,26 +238,26 @@ Orderer: &OrdererDefaults
         - orderer27.example.com:7050
         - orderer28.example.com:7050
         - orderer29.example.com:7050
-        - orderer30.example.com:7050
-        - orderer31.example.com:7050
-        - orderer32.example.com:7050
-        - orderer33.example.com:7050
-        - orderer34.example.com:7050
-        - orderer35.example.com:7050
-        - orderer36.example.com:7050
-        - orderer37.example.com:7050
-        - orderer38.example.com:7050
-        - orderer39.example.com:7050
-        - orderer40.example.com:7050
-        - orderer41.example.com:7050
-        - orderer42.example.com:7050
-        - orderer43.example.com:7050
-        - orderer44.example.com:7050
-        - orderer45.example.com:7050
-        - orderer46.example.com:7050
-        - orderer47.example.com:7050
-        - orderer48.example.com:7050
-        - orderer49.example.com:7050
+        # - orderer30.example.com:7050
+        # - orderer31.example.com:7050
+        # - orderer32.example.com:7050
+        # - orderer33.example.com:7050
+        # - orderer34.example.com:7050
+        # - orderer35.example.com:7050
+        # - orderer36.example.com:7050
+        # - orderer37.example.com:7050
+        # - orderer38.example.com:7050
+        # - orderer39.example.com:7050
+        # - orderer40.example.com:7050
+        # - orderer41.example.com:7050
+        # - orderer42.example.com:7050
+        # - orderer43.example.com:7050
+        # - orderer44.example.com:7050
+        # - orderer45.example.com:7050
+        # - orderer46.example.com:7050
+        # - orderer47.example.com:7050
+        # - orderer48.example.com:7050
+        # - orderer49.example.com:7050
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
@@ -461,26 +461,26 @@ Profiles:
                 - orderer27.example.com:7050
                 - orderer28.example.com:7050
                 - orderer29.example.com:7050
-                - orderer30.example.com:7050
-                - orderer31.example.com:7050
-                - orderer32.example.com:7050
-                - orderer33.example.com:7050
-                - orderer34.example.com:7050
-                - orderer35.example.com:7050
-                - orderer36.example.com:7050
-                - orderer37.example.com:7050
-                - orderer38.example.com:7050
-                - orderer39.example.com:7050
-                - orderer40.example.com:7050
-                - orderer41.example.com:7050
-                - orderer42.example.com:7050
-                - orderer43.example.com:7050
-                - orderer44.example.com:7050
-                - orderer45.example.com:7050
-                - orderer46.example.com:7050
-                - orderer47.example.com:7050
-                - orderer48.example.com:7050
-                - orderer49.example.com:7050
+                # - orderer30.example.com:7050
+                # - orderer31.example.com:7050
+                # - orderer32.example.com:7050
+                # - orderer33.example.com:7050
+                # - orderer34.example.com:7050
+                # - orderer35.example.com:7050
+                # - orderer36.example.com:7050
+                # - orderer37.example.com:7050
+                # - orderer38.example.com:7050
+                # - orderer39.example.com:7050
+                # - orderer40.example.com:7050
+                # - orderer41.example.com:7050
+                # - orderer42.example.com:7050
+                # - orderer43.example.com:7050
+                # - orderer44.example.com:7050
+                # - orderer45.example.com:7050
+                # - orderer46.example.com:7050
+                # - orderer47.example.com:7050
+                # - orderer48.example.com:7050
+                # - orderer49.example.com:7050
 
             Organizations:
             - *OrdererOrg

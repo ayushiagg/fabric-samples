@@ -13,7 +13,7 @@ OrdererOrgs:
   - Name: Orderer
     Domain: example.com
     Template:
-      Count: 50  
+      Count: 30
     # ---------------------------------------------------------------------------
     # "Specs" - See PeerOrgs below for complete description
     # ---------------------------------------------------------------------------
@@ -48,26 +48,26 @@ OrdererOrgs:
       - Hostname: orderer27
       - Hostname: orderer28
       - Hostname: orderer29
-      - Hostname: orderer30
-      - Hostname: orderer31
-      - Hostname: orderer32
-      - Hostname: orderer33
-      - Hostname: orderer34
-      - Hostname: orderer35
-      - Hostname: orderer36
-      - Hostname: orderer37
-      - Hostname: orderer38
-      - Hostname: orderer39
-      - Hostname: orderer40
-      - Hostname: orderer41
-      - Hostname: orderer42
-      - Hostname: orderer43
-      - Hostname: orderer44
-      - Hostname: orderer45
-      - Hostname: orderer46
-      - Hostname: orderer47
-      - Hostname: orderer48
-      - Hostname: orderer49
+      # - Hostname: orderer30
+      # - Hostname: orderer31
+      # - Hostname: orderer32
+      # - Hostname: orderer33
+      # - Hostname: orderer34
+      # - Hostname: orderer35
+      # - Hostname: orderer36
+      # - Hostname: orderer37
+      # - Hostname: orderer38
+      # - Hostname: orderer39
+      # - Hostname: orderer40
+      # - Hostname: orderer41
+      # - Hostname: orderer42
+      # - Hostname: orderer43
+      # - Hostname: orderer44
+      # - Hostname: orderer45
+      # - Hostname: orderer46
+      # - Hostname: orderer47
+      # - Hostname: orderer48
+      # - Hostname: orderer49
         SANS:
           - "localhost"
           - "127.0.0.1"
